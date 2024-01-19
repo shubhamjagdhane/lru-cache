@@ -62,8 +62,40 @@ func (dll *doublyLinkedList) String() string {
 
 }
 
-func (dll *doublyLinkedList) RemoveNode(curr *node) {
+func (dll *doublyLinkedList) AdjustNode(curr *node) {
+	if dll.head == curr {
+		return
+	}
 
+	prev := curr.prev
+	next := curr.next
+
+	prev.next = next
+	if next != nil {
+		next.prev = prev
+	}
+
+	curr.prev = nil
+	curr.next = dll.head
+
+	dll.head = curr
+}
+
+func (dll *doublyLinkedList) RemoveTail() {
+	curr := dll.tail
+	if curr != nil {
+		prev := curr.prev
+
+		if prev != nil {
+			prev.next = nil
+		}
+
+		dll.tail = prev
+	}
+	curr = nil
+}
+
+func (dll *doublyLinkedList) RemoveNode(curr *node) {
 	if dll.head == curr {
 		next := curr.next
 		next.prev = nil
@@ -85,6 +117,7 @@ func (dll *doublyLinkedList) RemoveNode(curr *node) {
 	curr = nil
 }
 
+/*
 func main() {
 	dll := newDoublyLinkedList()
 
@@ -101,3 +134,4 @@ func main() {
 	dll.RemoveNode(ten)
 	fmt.Println(dll)
 }
+*/
